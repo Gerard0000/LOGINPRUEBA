@@ -1,4 +1,7 @@
-using LoginPrueba.Data;
+using LOGINPRUEBA.web.Data;
+using LOGINPRUEBA.web.Data.Entities;
+using LOGINPRUEBA.web.Helpers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -13,8 +16,24 @@ builder.Services.AddControllersWithViews()
 //INYECTAMOS EL DATACONTEXT
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=SqlConnection"));
 
+//INYECCION DE IDENTIDAD DE CONTRASE?A, CAMBIAR PARAMETROS TODO
+builder.Services.AddIdentity<User, IdentityRole>(cfg =>
+{
+    cfg.User.RequireUniqueEmail = true;
+    cfg.Password.RequireDigit = true;
+    cfg.Password.RequiredUniqueChars = 1;
+    cfg.Password.RequireLowercase = true;
+    cfg.Password.RequireNonAlphanumeric = true;
+    cfg.Password.RequireUppercase = true;
+    cfg.Password.RequiredLength = 12;
+}).AddEntityFrameworkStores<DataContext>()
+.AddDefaultTokenProviders();
+
 //INYECTAMOS LOS SEEDERS
 builder.Services.AddTransient<SeedDb>();
+
+//INYECTAMOS EL USERHELPER
+builder.Services.AddScoped<IUserHelper, UserHelper>();
 
 var app = builder.Build();
 
@@ -41,9 +60,12 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseAuthentication();
 
 app.MapStaticAssets();
 

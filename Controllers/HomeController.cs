@@ -1,8 +1,8 @@
 using System.Diagnostics;
-using LoginPrueba.Models;
+using LOGINPRUEBA.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LoginPrueba.Controllers
+namespace LOGINPRUEBA.Controllers
 {
     public class HomeController : Controller
     {

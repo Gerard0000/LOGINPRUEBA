@@ -1,4 +1,4 @@
-namespace LoginPrueba.Models
+namespace LOGINPRUEBA.Models
 {
     public class ErrorViewModel
     {

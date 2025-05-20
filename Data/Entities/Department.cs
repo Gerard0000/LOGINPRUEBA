@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LoginPrueba.Data.Entities;
+namespace LOGINPRUEBA.web.Data.Entities;
 
 public class Department
 {

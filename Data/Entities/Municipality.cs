@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LoginPrueba.Data.Entities;
+namespace LOGINPRUEBA.web.Data.Entities;
 
 public class Municipality
 {
@@ -41,14 +41,12 @@ public class Municipality
     [Display(Name = "Fecha de Modificación")]
     public DateTime DateLocalModification => ModificationDate.ToLocalTime();
 
-    //SOLO ME TRAE LOS SIGUIENTES DATOS CON COMBOBOX
-
     [Display(Name = "Departamento")]
     public Department? Department { get; set; }
 
-    public ICollection<Court>? Courts { get; set; }
+    public ICollection<User>? Users { get; set; }
 
     //CONTARME JUZGADOS
-    [Display(Name = "Número de Juzgados o Tribunales")]
-    public int CourtsNumber => Courts == null ? 0 : Courts.Count;
+    [Display(Name = "Número de Usuarios")]
+    public int UsersNumber => Users == null ? 0 : Users.Count;
 }

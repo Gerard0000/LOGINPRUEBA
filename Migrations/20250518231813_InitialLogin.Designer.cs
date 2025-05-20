@@ -4,6 +4,7 @@ using LOGINPRUEBA.web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LOGINPRUEBA.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250518231813_InitialLogin")]
+    partial class InitialLogin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace LOGINPRUEBA.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("LOGINPRUEBA.web.Data.Entities.Customer", b =>
+            modelBuilder.Entity("LOGINPRUEBA.Data.Entities.Customer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -40,7 +43,7 @@ namespace LOGINPRUEBA.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("LOGINPRUEBA.web.Data.Entities.Department", b =>
+            modelBuilder.Entity("LOGINPRUEBA.Data.Entities.Department", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -85,7 +88,7 @@ namespace LOGINPRUEBA.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("LOGINPRUEBA.web.Data.Entities.Manager", b =>
+            modelBuilder.Entity("LOGINPRUEBA.Data.Entities.Manager", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -103,7 +106,7 @@ namespace LOGINPRUEBA.Migrations
                     b.ToTable("Managers");
                 });
 
-            modelBuilder.Entity("LOGINPRUEBA.web.Data.Entities.Municipality", b =>
+            modelBuilder.Entity("LOGINPRUEBA.Data.Entities.Municipality", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -150,7 +153,7 @@ namespace LOGINPRUEBA.Migrations
                     b.ToTable("Municipalities");
                 });
 
-            modelBuilder.Entity("LOGINPRUEBA.web.Data.Entities.User", b =>
+            modelBuilder.Entity("LOGINPRUEBA.Data.Entities.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -397,36 +400,36 @@ namespace LOGINPRUEBA.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("LOGINPRUEBA.web.Data.Entities.Customer", b =>
+            modelBuilder.Entity("LOGINPRUEBA.Data.Entities.Customer", b =>
                 {
-                    b.HasOne("LOGINPRUEBA.web.Data.Entities.User", "User")
+                    b.HasOne("LOGINPRUEBA.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("LOGINPRUEBA.web.Data.Entities.Manager", b =>
+            modelBuilder.Entity("LOGINPRUEBA.Data.Entities.Manager", b =>
                 {
-                    b.HasOne("LOGINPRUEBA.web.Data.Entities.User", "User")
+                    b.HasOne("LOGINPRUEBA.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("LOGINPRUEBA.web.Data.Entities.Municipality", b =>
+            modelBuilder.Entity("LOGINPRUEBA.Data.Entities.Municipality", b =>
                 {
-                    b.HasOne("LOGINPRUEBA.web.Data.Entities.Department", "Department")
+                    b.HasOne("LOGINPRUEBA.Data.Entities.Department", "Department")
                         .WithMany("Municipalities")
                         .HasForeignKey("DepartmentId");
 
                     b.Navigation("Department");
                 });
 
-            modelBuilder.Entity("LOGINPRUEBA.web.Data.Entities.User", b =>
+            modelBuilder.Entity("LOGINPRUEBA.Data.Entities.User", b =>
                 {
-                    b.HasOne("LOGINPRUEBA.web.Data.Entities.Municipality", "Municipality")
+                    b.HasOne("LOGINPRUEBA.Data.Entities.Municipality", "Municipality")
                         .WithMany("Users")
                         .HasForeignKey("MunicipalityId");
 
@@ -444,7 +447,7 @@ namespace LOGINPRUEBA.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("LOGINPRUEBA.web.Data.Entities.User", null)
+                    b.HasOne("LOGINPRUEBA.Data.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -453,7 +456,7 @@ namespace LOGINPRUEBA.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("LOGINPRUEBA.web.Data.Entities.User", null)
+                    b.HasOne("LOGINPRUEBA.Data.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -468,7 +471,7 @@ namespace LOGINPRUEBA.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LOGINPRUEBA.web.Data.Entities.User", null)
+                    b.HasOne("LOGINPRUEBA.Data.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -477,19 +480,19 @@ namespace LOGINPRUEBA.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("LOGINPRUEBA.web.Data.Entities.User", null)
+                    b.HasOne("LOGINPRUEBA.Data.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("LOGINPRUEBA.web.Data.Entities.Department", b =>
+            modelBuilder.Entity("LOGINPRUEBA.Data.Entities.Department", b =>
                 {
                     b.Navigation("Municipalities");
                 });
 
-            modelBuilder.Entity("LOGINPRUEBA.web.Data.Entities.Municipality", b =>
+            modelBuilder.Entity("LOGINPRUEBA.Data.Entities.Municipality", b =>
                 {
                     b.Navigation("Users");
                 });

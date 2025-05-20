@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace LoginPrueba.Migrations
+namespace LOGINPRUEBA.Migrations
 {
     /// <inheritdoc />
     public partial class InitialDb : Migration

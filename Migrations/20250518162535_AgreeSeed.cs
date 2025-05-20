@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace LoginPrueba.Migrations
+namespace LOGINPRUEBA.Migrations
 {
     /// <inheritdoc />
     public partial class AgreeSeed : Migration

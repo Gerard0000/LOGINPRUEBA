@@ -1,19 +1,68 @@
-﻿using LoginPrueba.Data.Entities;
+﻿using LOGINPRUEBA.web.Data.Entities;
+using LOGINPRUEBA.web.Enums;
+using LOGINPRUEBA.web.Helpers;
 
-namespace LoginPrueba.Data;
+namespace LOGINPRUEBA.web.Data;
 
-public class SeedDb
+public class SeedDb(DataContext dataContext, IUserHelper userHelper)
 {
-    private readonly DataContext _dataContext;
-
-    public SeedDb(DataContext context)
-    {
-        _dataContext = context;
-    }
+    private readonly DataContext _dataContext = dataContext;
+    private readonly IUserHelper _userHelper = userHelper;
 
     public async Task SeedAsync()
     {
+        var manager = await CheckUserAsync("ADMIN", "admin@admin.com", "admin", UserType.Manager);
+        var customer = await CheckUserAsync("USER", "user@user.com", "user", UserType.Customer);
+
+        await _dataContext.Database.EnsureCreatedAsync();
+
         await CheckDepartmentsAsync();
+        await CheckCustomerAsync(customer);
+        await CheckManagerAsync(manager);
+        await CheckRoleAsync();
+    }
+
+    private async Task CheckManagerAsync(User user)
+    {
+        if (!_dataContext.Managers.Any())
+        {
+            _dataContext.Managers.Add(new Manager { User = user });
+            await _dataContext.SaveChangesAsync();
+        }
+    }
+
+    private async Task CheckCustomerAsync(User user)
+    {
+        if (!_dataContext.Customers.Any())
+        {
+            _dataContext.Customers.Add(new Customer { User = user });
+            await _dataContext.SaveChangesAsync();
+        }
+    }
+
+    private async Task<User> CheckUserAsync(string fullName, string email, string userName, UserType userType)
+    {
+        var user = await _userHelper.GetUserAsync(userName);
+        if (user == null)
+        {
+            user = new User
+            {
+                FullName = fullName,
+                Email = email,
+                UserName = userName,
+                UserType = userType,
+            };
+
+            await _userHelper.AddUserAsync(user, "Indep3NdeNCI@");
+            await _userHelper.AddUserToRoleAsync(user, userType);
+        }
+        return user!;
+    }
+
+    private async Task CheckRoleAsync()
+    {
+        await _userHelper.CheckRoleAsync(UserType.Manager.ToString());
+        await _userHelper.CheckRoleAsync(UserType.Customer.ToString());
     }
 
     private async Task CheckDepartmentsAsync()
@@ -196,13 +245,7 @@ public class SeedDb
             CodDepHn = "08",
             Municipalities =
                     [
-                        new Municipality { Name = "DISTRITO CENTRAL" , CodMunHn = "0801",
-                        Courts = new List<Court>
-                        {
-                            new Court { Name = "JUZGADO DE LETRAS CIVIL DEL DEPARTAMENTO DE FRANCISCO MORAZÁN" },
-                            new Court { Name = "JUZGADO DE PAZ CIVIL DEL MUNICIPIO DEL DISTRITO CENTRAL" },
-                        }
-                        },
+                        new Municipality { Name = "DISTRITO CENTRAL" , CodMunHn = "0801" },
                         new Municipality { Name = "ALUBAREN" , CodMunHn = "0802" },
                         new Municipality { Name = "CEDROS" , CodMunHn = "0803" },
                         new Municipality { Name = "CURAREN" , CodMunHn = "0804" },
